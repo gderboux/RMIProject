@@ -2,6 +2,7 @@ package server1;
 
 import common.Sorter;
 
+import java.rmi.RemoteException;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,16 +17,18 @@ import java.util.List;
  * is detected in the object's stub, on the client side.
  *
  */
-public class SimpleSorter implements Sorter {
+public class SorterImpl implements Sorter {
 
   @Override
-  public List<String> sort(List<String> list) {
+  public List<String> sort(List<String> list) throws RemoteException {
+    Server.getBalancer().incrementServer(Server.getHostAddress());
 
     System.out.println(this + ": receveid " + list);
 
     Collections.sort(list);
 
     System.out.println(this + ": returning " + list);
+    Server.getBalancer().decrementServer(Server.getHostAddress());
     return list;
   }
 
@@ -43,7 +46,7 @@ public class SimpleSorter implements Sorter {
 
   @Override
   public String toString() {
-    return "SimpleSorter " + Thread.currentThread();
+    return "SorterImpl " + Thread.currentThread();
   }
 
 }
