@@ -21,14 +21,14 @@ public class SorterImpl implements Sorter {
 
   @Override
   public List<String> sort(List<String> list) throws RemoteException {
-    Server.getBalancer().incrementServer(Server.getHostAddress());
+    Server.getBalancer().incrementServerCharge(Server.getHostAddress());
 
     System.out.println(this + ": receveid " + list);
 
     Collections.sort(list);
 
     System.out.println(this + ": returning " + list);
-    Server.getBalancer().decrementServer(Server.getHostAddress());
+    Server.getBalancer().decrementServerCharge(Server.getHostAddress());
     return list;
   }
 

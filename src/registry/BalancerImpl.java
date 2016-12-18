@@ -12,19 +12,19 @@ public class BalancerImpl implements Balancer {
 
     Map<String, Integer> serverCharge = new HashMap<>();
     @Override
-    public void incrementServer(String serverName) {
+    public void incrementServerCharge(String serverName) {
         System.out.println("Balancer : serveur" + serverName + " is incremented");
         serverCharge.put(serverName, serverCharge.get(serverName) + 1);
     }
 
     @Override
-    public void decrementServer(String serverName) {
+    public void decrementServerCharge(String serverName) {
         System.out.println("Balancer : serveur" + serverName + " is decremented");
         serverCharge.put(serverName, serverCharge.get(serverName) - 1);
     }
 
     @Override
-    public void bindServer(String serverName) {
+    public void rebindServer(String serverName) {
         System.out.println("Balancer : bind" + serverName);
         serverCharge.put(serverName, new Integer(0));
     }

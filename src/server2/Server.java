@@ -1,8 +1,9 @@
-package server1;
+package server2;
 
 import common.Sorter;
 import registry.Balancer;
 import registry.LocateGlobalRegistry;
+import server1.SorterImpl;
 
 import java.net.InetAddress;
 import java.rmi.registry.Registry;
@@ -24,7 +25,6 @@ public class Server {
   private static final String SERVICE_NAME = "Sorter";
   private static final String BALANCER = "Balancer";
   private static String hostAddress = null;
-
   private static Balancer balancer = null;
 
   //
@@ -43,14 +43,14 @@ public class Server {
 
     // instanciate the Sorter remote object
     Sorter sorter = new SorterImpl();
-    System.out.println("server: instanciated SorterImpl");
+    System.out.println("server2: instanciated SorterImpl");
     Sorter stub = (Sorter) UnicastRemoteObject.exportObject(sorter, 0);
-    System.out.println("server: generated skeleton and stub");
+    System.out.println("server2: generated skeleton and stub");
     registry.rebind("rmi://" + hostAddress + "/" + SERVICE_NAME, stub);
-    System.out.println("server: registered remote object's stub");
+    System.out.println("server2: registered remote object's stub");
 
     // main terminates here, but the JVM still runs because of the skeleton
-    System.out.println("server: ready");
+    System.out.println("server2: ready");
   }
 
   public static Balancer getBalancer() {
@@ -60,4 +60,5 @@ public class Server {
   public static String getHostAddress() {
     return hostAddress;
   }
+
 }
