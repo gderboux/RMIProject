@@ -2,7 +2,6 @@ package client;
 
 import common.Formatter;
 import common.Sorter;
-import registry.Balancer;
 import registry.LocateGlobalRegistry;
 
 import java.rmi.registry.Registry;

@@ -21,11 +21,12 @@ public class GlobalRegistry implements Registry {
         }
         List<String> availableServerList = availableServerList(s);
         Balancer balancer = (Balancer) this.lookup(BALANCER);
-        String bestServer = findBestServer(availableServerList, balancer);
+        String bestServer = findBestServer(s, availableServerList, balancer);
+        System.out.println(bestServer);
         return remoteMap.get(bestServer);
     }
 
-    private String findBestServer(List<String> availableServerList, Balancer balancer) throws NotBoundException {
+    private String findBestServer(String serviceName, List<String> availableServerList, Balancer balancer) throws NotBoundException {
         return remoteMap.keySet().stream()
                 .filter(key -> {
                     try {
@@ -35,6 +36,7 @@ public class GlobalRegistry implements Registry {
                     }
                     return false;
                 })
+                .filter(key2 -> key2.contains(serviceName))
                 .findFirst()
                 .orElseThrow(NotBoundException::new);
     }

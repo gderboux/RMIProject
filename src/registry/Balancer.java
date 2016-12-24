@@ -6,11 +6,7 @@ import java.util.List;
 
 public interface Balancer extends Remote {
 
-    void incrementServerCharge(String serverName) throws RemoteException;
-
-    void decrementServerCharge(String serverName) throws RemoteException;
-
-    void rebindServer(String serverName) throws RemoteException;
+    void rebindServer(String serverName, double charge) throws RemoteException;
 
     String getBestServer(List<String> serverList) throws RemoteException;
 }

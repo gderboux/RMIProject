@@ -7,6 +7,7 @@ import registry.LocateGlobalRegistry;
 import java.net.InetAddress;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
 
 /**
  * Server program.
@@ -23,9 +24,7 @@ public class Server {
   //
   private static final String SERVICE_NAME = "Sorter";
   private static final String BALANCER = "Balancer";
-  private static String hostAddress = null;
-
-  private static Balancer balancer = null;
+  private static final int TIME = 60 * 1000;
 
   //
   // MAIN
@@ -34,11 +33,14 @@ public class Server {
 
     System.out.println("server: running on host " + InetAddress.getLocalHost());
     Registry registry = LocateGlobalRegistry.getRegistry();
-    hostAddress = InetAddress.getLocalHost().getHostAddress();
+    String hostAddress = InetAddress.getLocalHost().getHostAddress();
 
     //retrieve Balancer stub
-    balancer = (Balancer) registry.lookup(BALANCER);
-    balancer.rebindServer(hostAddress);
+    Balancer balancer = (Balancer) registry.lookup(BALANCER);
+
+    //BalancerTask Balancer
+    Timer t = new Timer();
+    t.scheduleAtFixedRate(new BalancerTask(balancer, hostAddress), 0 ,TIME);
 
 
     // instanciate the Sorter remote object
@@ -53,11 +55,4 @@ public class Server {
     System.out.println("server: ready");
   }
 
-  public static Balancer getBalancer() {
-    return balancer;
-  }
-
-  public static String getHostAddress() {
-    return hostAddress;
-  }
 }
