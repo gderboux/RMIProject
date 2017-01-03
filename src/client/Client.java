@@ -1,6 +1,6 @@
 package client;
 
-import common.Formatter;
+import common.Data;
 import common.Sorter;
 import registry.LocateGlobalRegistry;
 
@@ -17,8 +17,8 @@ public class Client {
   // CONSTANTS
   //
   private static final String SERVICE_SORTER = "Sorter";
-  private static final String SERVICE_FORMATTER = "Formatter";
   private static final String REGISTRY_HOST = "localhost";
+  private static final String SERVICE_PASSIVE_REPOSITORY = "Passive Repository";
 
   //
   // MAIN
@@ -32,8 +32,8 @@ public class Client {
     // retrieve the stub of the remote object by its name
     Sorter sorter = (Sorter) registry.lookup(SERVICE_SORTER);
     System.out.println("client: retrieved Sorter stub");
-    Formatter formatter = (Formatter) registry.lookup(SERVICE_FORMATTER);
-    System.out.println("client: retrieved Formatter stub");
+    Data data = (Data) registry.lookup(SERVICE_PASSIVE_REPOSITORY);
+    System.out.println("client: retrieved Data stub");
 
     //Examples
     List<String> list = Arrays.asList("3", "5", "1", "2", "4");
@@ -46,10 +46,12 @@ public class Client {
     list = sorter.reverseSort(list);
     System.out.println("client: received " + list);
 
-    list = Arrays.asList("mars", "saturne", "neptune", "jupiter");
-    System.out.println("client: sending " + list);
-    list = formatter.toUpperCase(list);
-    System.out.println("client: received " + list);
+    String dataValue = "test2";
+    System.out.println("client: sending data  " + dataValue);
+    data.setData(dataValue);
+    System.out.println("client: receive data  " + data.getData());
+
+
 
 
     // main terminates here

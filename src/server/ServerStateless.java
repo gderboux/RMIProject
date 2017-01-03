@@ -1,11 +1,8 @@
-package server2;
+package server;
 
-import common.Formatter;
 import common.Sorter;
 import registry.Balancer;
 import registry.LocateGlobalRegistry;
-import server1.BalancerTask;
-import server1.SorterImpl;
 
 import java.net.InetAddress;
 import java.rmi.registry.Registry;
@@ -13,21 +10,21 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
 
 /**
- * Server program.
+ * ServerStateless program.
  *
  * Note: After the main method exits, the JVM will still run. This is because
  * the skeleton implements a non-daemon listening thread, which waits for
  * incoming requests forever.
  *
  */
-public class Server {
+public class ServerStateless {
 
   //
   // CONSTANTS
   //
-  private static final String SERVICE_NAME = "Formatter";
+  private static final String SERVICE_NAME = "Sorter";
   private static final String BALANCER = "Balancer";
-  private static final int TIME = 60 * 1000;
+  private static final int TIME = 10 * 1000;
 
   //
   // MAIN
@@ -46,14 +43,15 @@ public class Server {
     t.scheduleAtFixedRate(new BalancerTask(balancer, hostAddress), 0 ,TIME);
 
     // instanciate the Sorter remote object
-    Formatter formatter = new FormatterImpl();
-    System.out.println("server2: instanciated FormatterImpl");
-    Formatter stub = (Formatter) UnicastRemoteObject.exportObject(formatter, 0);
-    System.out.println("server2: generated skeleton and stub");
+    Sorter sorter = new SorterImpl();
+    System.out.println("server: instanciated SorterImpl");
+    Sorter stub = (Sorter) UnicastRemoteObject.exportObject(sorter, 0);
+    System.out.println("server: generated skeleton and stub");
     registry.rebind("rmi://" + hostAddress + "/" + SERVICE_NAME, stub);
-    System.out.println("server2: registered remote object's stub");
+    System.out.println("server: registered remote object's stub");
 
     // main terminates here, but the JVM still runs because of the skeleton
-    System.out.println("server2: ready");
+    System.out.println("server: ready");
   }
+
 }

@@ -15,8 +15,6 @@ public class Registry {
         LocateGlobalRegistry.createRegistry();
         System.out.println("registry: listening on port " + REGISTRY_PORT);
 
-
-
         // block forever
         Registry.class.wait();
         System.out.println("registry: exiting (should not happen)");

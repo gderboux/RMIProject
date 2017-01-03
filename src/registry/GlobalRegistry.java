@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GlobalRegistry implements Registry {
+public class GlobalRegistry implements IGlobalRegistry {
 
     private static final String BALANCER = "Balancer";
 
@@ -20,6 +20,12 @@ public class GlobalRegistry implements Registry {
             return remoteMap.get(BALANCER);
         }
         List<String> availableServerList = availableServerList(s);
+        if (availableServerList != null) {
+            Remote remote = remoteMap.get(availableServerList.get(0));
+            if (remote instanceof Statefull) {
+                return remote;
+            }
+        }
         Balancer balancer = (Balancer) this.lookup(BALANCER);
         String bestServer = findBestServer(s, availableServerList, balancer);
         System.out.println(bestServer);
@@ -67,5 +73,10 @@ public class GlobalRegistry implements Registry {
     @Override
     public String[] list() throws RemoteException {
         return new String[0];
+    }
+
+    @Override
+    public Remote getPrimaryRemote(String service) throws RemoteException {
+        return remoteMap.get("rmi://" + availableServerList(service).get(0) + "/" + service);
     }
 }

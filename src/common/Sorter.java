@@ -1,5 +1,7 @@
 package common;
 
+import registry.Stateless;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
  * </ul>
  *
  */
-public interface Sorter extends Remote {
+public interface Sorter extends Stateless {
 
   List<String> sort(List<String> list) throws RemoteException;
 
