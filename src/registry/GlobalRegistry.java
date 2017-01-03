@@ -18,16 +18,20 @@ public class GlobalRegistry implements IGlobalRegistry {
         if (s.equals(BALANCER)) {
             return remoteMap.get(BALANCER);
         }
+        // Renvoie la liste de serveur contenant le service recherché
         List<String> availableServerList = availableServerList(s);
+        // Ce code ne concerne que la partie 3
         if (availableServerList != null) {
             Remote remote = remoteMap.get(availableServerList.get(0));
             if (remote instanceof Statefull) {
                 return remote;
             }
-        }
+        } // fin partie 3
+
+        //récupération du stub Balancer
         Balancer balancer = (Balancer) this.lookup(BALANCER);
+        //trouve le serveur avec la charge la plus faible contenant le service recherché
         String bestServer = findBestServer(s, availableServerList, balancer);
-        System.out.println(bestServer);
         return remoteMap.get(bestServer);
     }
 
