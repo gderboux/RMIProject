@@ -13,7 +13,6 @@ public class GlobalRegistry implements IGlobalRegistry {
 
     Map<String, Remote> remoteMap = new HashMap<>();
 
-
     @Override
     public Remote lookup(String s) throws RemoteException, NotBoundException {
         if (s.equals(BALANCER)) {
@@ -78,5 +77,13 @@ public class GlobalRegistry implements IGlobalRegistry {
     @Override
     public Remote getPrimaryRemote(String service) throws RemoteException {
         return remoteMap.get("rmi://" + availableServerList(service).get(0) + "/" + service);
+    }
+
+    @Override
+    public List<Remote> remoteListForAService(String service) throws RemoteException {
+        return remoteMap.entrySet().stream()
+                .filter(stringRemoteEntry -> stringRemoteEntry.getKey().contains(service))
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }

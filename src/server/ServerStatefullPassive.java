@@ -3,6 +3,7 @@ package server;
 import common.Data;
 import registry.IGlobalRegistry;
 import registry.LocateGlobalRegistry;
+import registry.ReplicationStrategy;
 
 import java.net.InetAddress;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,12 +17,12 @@ import java.util.Timer;
  * incoming requests forever.
  *
  */
-public class ServerStatefullPassif {
+public class ServerStatefullPassive {
 
   //
   // CONSTANTS
   //
-  private static final String SERVICE_PASSIVE_REPOSITORY = "Passive Repository";
+  private static final String SERVICE_PASSIVE_REPOSITORY = "Passive DATA";
   private static final int TIME = 5 * 1000;
 
 
@@ -35,7 +36,7 @@ public class ServerStatefullPassif {
     String hostAddress = InetAddress.getLocalHost().getHostAddress();
 
     // instanciate the remote object
-    Data data = new DataImpl();
+    Data data = new DataImpl(ReplicationStrategy.PASSIVE, SERVICE_PASSIVE_REPOSITORY);
     System.out.println("server: instanciated DataImpl");
     Data stub = (Data) UnicastRemoteObject.exportObject(data, 0);
     System.out.println("server: generated skeleton and stub");

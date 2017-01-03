@@ -18,7 +18,9 @@ public class Client {
   //
   private static final String SERVICE_SORTER = "Sorter";
   private static final String REGISTRY_HOST = "localhost";
-  private static final String SERVICE_PASSIVE_REPOSITORY = "Passive Repository";
+  private static final String SERVICE_PASSIVE_REPOSITORY = "Passive DATA";
+  private static final String SERVICE_ACTIVE_REPOSITORY = "Active DATA";
+
 
   //
   // MAIN
@@ -32,7 +34,9 @@ public class Client {
     // retrieve the stub of the remote object by its name
     Sorter sorter = (Sorter) registry.lookup(SERVICE_SORTER);
     System.out.println("client: retrieved Sorter stub");
-    Data data = (Data) registry.lookup(SERVICE_PASSIVE_REPOSITORY);
+    Data passiveData = (Data) registry.lookup(SERVICE_PASSIVE_REPOSITORY);
+    System.out.println("client: retrieved Data stub");
+    Data activeData = (Data) registry.lookup(SERVICE_ACTIVE_REPOSITORY);
     System.out.println("client: retrieved Data stub");
 
     //Examples
@@ -46,12 +50,15 @@ public class Client {
     list = sorter.reverseSort(list);
     System.out.println("client: received " + list);
 
-    String dataValue = "test2";
-    System.out.println("client: sending data  " + dataValue);
-    data.setData(dataValue);
-    System.out.println("client: receive data  " + data.getData());
+    String dataValuePassive = "test Pasive";
+    System.out.println("client: sending data  " + dataValuePassive);
+    passiveData.setData(dataValuePassive);
+    System.out.println("client: receive data  " + passiveData.getData());
 
-
+    String dataValueActive = "test Active";
+    System.out.println("client: sending data  " + dataValueActive);
+    activeData.setData(dataValueActive);
+    System.out.println("client: receive data  " + activeData.getData());
 
 
     // main terminates here

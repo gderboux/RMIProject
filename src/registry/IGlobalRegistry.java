@@ -21,4 +21,6 @@ public interface IGlobalRegistry extends java.rmi.registry.Registry {
     String[] list() throws RemoteException;
 
     Remote getPrimaryRemote(String service) throws RemoteException;
+
+    List<Remote> remoteListForAService (String service) throws RemoteException;
 }

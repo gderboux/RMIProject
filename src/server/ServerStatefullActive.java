@@ -2,6 +2,7 @@ package server;
 
 import common.Data;
 import registry.LocateGlobalRegistry;
+import registry.ReplicationStrategy;
 
 import java.net.InetAddress;
 import java.rmi.registry.Registry;
@@ -20,7 +21,8 @@ public class ServerStatefullActive {
   //
   // CONSTANTS
   //
-  private static final String SERVICE_ACTIVE_REPOSITORY = "ActiveRepository";
+  private static final String SERVICE_ACTIVE_REPOSITORY = "Active DATA";
+
 
   //
   // MAIN
@@ -32,7 +34,7 @@ public class ServerStatefullActive {
     String hostAddress = InetAddress.getLocalHost().getHostAddress();
 
     // instanciate the Sorter remote object
-    Data data = new DataImpl();
+    Data data = new DataImpl(ReplicationStrategy.ACTIVE, SERVICE_ACTIVE_REPOSITORY);
     System.out.println("server: instanciated DataImpl");
     Data stub = (Data) UnicastRemoteObject.exportObject(data, 0);
     System.out.println("server: generated skeleton and stub");

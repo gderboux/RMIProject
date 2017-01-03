@@ -21,7 +21,7 @@ public class SubscriptionTask extends TimerTask {
             System.out.println("Valeur du service actif : " + dataStub.getData());
             dataStub.setData(primaryStub.getData());
             System.out.println("Mise à jour du stub actif");
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
